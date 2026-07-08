@@ -1,0 +1,20 @@
+from dataclasses import dataclass
+from models.funcionario import Funcionario
+from sqlalchemy.sql import text
+
+@dataclass
+class Instrutor():
+    nit: int
+    grau_academico: str
+
+    def CadastrarInstrutor(self, session):
+        query_instrutor = text("""
+        INSERT INTO mydb.instrutor (funcionario_NIT, grau_academico)
+        VALUES (:funcionario_NIT, :grau_academico)
+        """)
+        params_instrutor = {
+            "funcionario_NIT": self.nit,
+            "grau_academico": self.grau_academico
+        }
+        session.execute(query_instrutor, params_instrutor)
+            
