@@ -142,6 +142,90 @@ Projeto desenvolvido por discentes do curso de Ciência da Computação da UFS:
 
 ---
 
-## 📄 Licença
+## 🚀 Como Executar
+
+### Pré-requisitos
+
+- [Node.js](https://nodejs.org/) 18+ e npm
+- Python 3.10+ (backend)
+- PostgreSQL
+
+### Frontend
+
+O frontend é construído com **Vite + React 19**.
+
+```bash
+# Entre na pasta do frontend
+cd frontend
+
+# Instale as dependências
+npm install
+
+# Rode o servidor de desenvolvimento
+npm run dev
+```
+
+A aplicação ficará disponível em `http://localhost:5173` (padrão do Vite).
+
+Outros scripts disponíveis:
+
+| Comando | Descrição |
+|---|---|
+| `npm run dev` | Inicia o servidor de desenvolvimento com hot-reload |
+| `npm run build` | Gera o build de produção |
+| `npm run preview` | Serve localmente o build de produção gerado |
+| `npm run lint` | Executa o ESLint no código |
+
+**Principais dependências:** `react` / `react-dom` (v19), `react-router-dom` (v7) para roteamento, `axios` para consumo da API REST do backend.
+
+### Backend
+
+O backend é construído com **Flask** + **Flask-SQLAlchemy** (ORM), **Flask-CORS** (para aceitar requisições do frontend) e **psycopg2** como driver do PostgreSQL.
+
+```bash
+# Entre na pasta do backend
+cd backend
+
+# Crie e ative um ambiente virtual
+python -m venv venv
+source venv/bin/activate      # Linux/macOS
+venv\Scripts\activate         # Windows
+
+# Instale as dependências
+pip install -r requirements.txt
+
+# Crie um arquivo .env na raiz do backend com, no mínimo:
+# DATABASE_URL=postgresql://usuario:senha@localhost:5432/nome_do_banco
+# FLASK_APP=app.py
+# FLASK_ENV=development
+
+# Rode o servidor
+flask run
+# ou, se o entry point usa app.run() diretamente:
+python app.py
+```
+
+O backend ficará disponível por padrão em `http://localhost:5000`.
+
+> ℹ️ **Nota:** o comando acima assume que o arquivo de entrada da aplicação é `app.py` — ajuste `FLASK_APP` (ou o comando `python`) caso o nome seja diferente no repositório (ex.: `main.py`, `run.py`).
+
+**Principais dependências:** `Flask` (framework web), `Flask-SQLAlchemy` (mapeamento objeto-relacional das entidades do modelo — Aluno, Treino, Aula, Plano etc.), `Flask-CORS` (libera o consumo da API pelo frontend em outra porta/origem), `psycopg2` (conexão com PostgreSQL), `python-dotenv` (carrega variáveis do `.env`).
+
+### Banco de Dados
+
+1. Crie um banco PostgreSQL local (ou em nuvem) e aponte a variável `DATABASE_URL` no `.env` do backend para ele.
+2. Como o projeto usa **Flask-SQLAlchemy** sem uma ferramenta de migrations (não há `Flask-Migrate`/Alembic no `requirements.txt`), as tabelas são criadas a partir dos `models` do SQLAlchemy. Normalmente isso é feito rodando, dentro do contexto da aplicação:
+
+```python
+from app import app, db
+
+with app.app_context():
+    db.create_all()
+```
+
+   Ou, se houver um script/comando dedicado no repositório para isso, use-o em vez do trecho acima.
+3. As tabelas seguem o modelo relacional descrito na seção [Modelo de Dados](#-modelo-de-dados) acima (Aluno, Funcionario, Treino, Aula, Plano, Aparelho, Avaliacao_Fisica, Usuario, entre outras).
+
+---
 
 Projeto acadêmico desenvolvido para fins educacionais na disciplina de Engenharia de Software II — UFS, 2025.
